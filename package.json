@@ -1,0 +1,24 @@
+{
+  "name": "expressExercises",
+  "version": "1.0.0",
+  "description": "A chat example to showcase how to use `socket.io` with a static `express` server with `async` for control flow.",
+  "main": "server.js",
+  "scripts": {
+    //"test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "express",
+    "mean",
+    "codeschool",
+    "exercises"
+    "keywords"
+  ],
+  "author": "elaine",
+  "license": "MIT",
+  "dependencies": {
+    "async": "~0.2.8",
+    "express": "4.16.2",
+    "socket.io": "~0.9.14"
+  }
+}
