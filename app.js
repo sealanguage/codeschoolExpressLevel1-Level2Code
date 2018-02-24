@@ -1,5 +1,5 @@
 var express = require('express')
-// will check the node+modules folder to find node.js. is assumes this is js file because this is javascrips
+// will check the node+modules folder to find node.js. is assumes this is js file because this is javascript
 var app = express();
 
 app.get('/', function(request, response) {
