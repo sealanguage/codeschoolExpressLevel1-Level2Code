@@ -22,6 +22,10 @@ app.get('/public', function(request, response) {
     response.redirect(301, '/surprise');
 })
 
+app.use(function (request, response) {
+  console.log('Time:', Date.now());
+});
+
 app.listen(3000, function() {
     console.log('Listening on port 3000');
 });
