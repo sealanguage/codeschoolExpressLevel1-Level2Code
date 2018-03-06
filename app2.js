@@ -1,21 +1,38 @@
 //  Express Level 2 homework
-/* global require */
+/* global require request */
 
 var express = require('express');
 // will check the node+modules folder to find node.js. it assumes this is js file because this is javascript
 var app = express();
-//var client = require('client');
-//app.use(client);
-
-
+var cities = {
+    'Altoona': 'PA', 
+    'Ligonier': 'PA', 
+    'Seward': 'PA', 
+    'Cumberland': 'MD', 
+    'Windber': 'PA', 
+    'Bedford': 'PA'
+    };
 
 app.get('/', function(request, response) {
     response.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/cities/:name', function(reqeust, response) {
+    var name = cities[request.params.name];
+    var cities = name[0].toUpperCase() + name.slice(1).toLowerCase();
+    if (!name) {
+        response.status(404).json('State not found for ' + request.params.name);
+    } else {
+        response.json(name);
+    }
+});
+
 app.get('/cities', function(request, response) {
-    var cities = ['Altoona', 'Ligonier', 'Seward', 'Cumberland'];
-    response.json(cities);
+    if(request.query.limit >= 0) {
+        response.json(cities.slice(0, request.query.limit));
+    } else {
+        response.json(Object.keys(cities));
+    }
 });
 
 app.use(express.static('public'));
@@ -27,12 +44,18 @@ app.use(express.static('public'));
 app.listen(process.env.PORT, function() {
 console.log('Listening on port new client file');
 });
-//   ckeck  Create a /cities route in your app.js file with at least 4 cities.
-//   ckeck  Create an index route that refers to the following file requirement.
-//   ckeck  Create index.html in a folder called public.
-// Index.html
-//   ckeck  Include an H1 header
-//   ckeck  Include a form with an empty selection element
-//   ckeck  Link up a js file.
-//   ckeck  Create JS file for the index.html file that will make an ajax request 
-//   to /cities and display each city inside the selection element.
+
+
+//     ok     A /cities route that will display all cities. (minimum of 5 cities)
+//      The /cities route should accept a limit query that will send back:
+//      The number of cities requested
+//      All cities if 0 is provided or if limit query is omitted
+//      return a status error if the limit is higher than the number of cities available in the list
+//      Add a dynamic route to /cities. This should respond with the state that the city resides in.
+
+//          Dynamic route should return Not Found status code if the requested city is not available.
+//     ok     Make sure to also normalize the data sent in the /cities route. 
+//     ok     The city sent should be sendable in any case and still find the state it’s in. ie Providence and providence should both return Rhode Island.
+//     ok     Your normalizing of the data should use a middleware function.
+//     ok     The /cities route should still display 
+//          The other routes only need be accessed by curl currently
