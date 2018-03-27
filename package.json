@@ -4,14 +4,14 @@
   "description": "express level 2 cliff assignment",
   "main": "app2.js",
   "scripts": {
-    //"test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app2.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [
     "express",
     "mean",
     "codeschool",
-    "exercises"
+    "exercises",
     "keywords"
   ],
   "author": "elaine",

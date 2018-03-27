@@ -1,41 +1,93 @@
-var express = require('express')
-// will check the node+modules folder to find node.js. is assumes this is js file because this is javascript
+//  Express Level 4 homework
+/* global require request */
+
+var express = require('express');
+// will check the node+modules folder to find node.js. it assumes this is js file because this is javascript
 var app = express();
+var cities = {
+    'Altoona': 'PA', 
+    'Ligonier': 'PA', 
+    'Seward': 'PA', 
+    'Cumberland': 'MD', 
+    'Windber': 'PA', 
+    'Bedford': 'PA'
+    };
+
+var bodyParser = require('body-parser');
+var parseUrlencoded = bodyParser.urlencoded({extended: false});
 
 app.get('/', function(request, response) {
-    response.sendFile(__dirname + "/public/index.html");
+    response.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/cities/:name', function(reqeust, response) {
+    var name = cities[request.params.name];
+    var cities = name[0].toUpperCase() + name.slice(1).toLowerCase();
+    if (!name) {
+        response.status(404).json('State not found for ' + request.params.name);
+    } else {
+        response.json(name);
+    }
+});
+
+app.get('/cities', function(request, response) {
+    if(request.query.limit >= 0) {
+        response.json(cities.slice(0, request.query.limit));
+    } else {
+        response.json(Object.keys(cities));
+    }
+});
+
+app.post('/cities', parseUrlencoded, function(request,response) {
+    var newCity = request.body;
+    cities[newCity.name] = newCity.state
+    response.status(201).json(newCity.name);
+});
+
+app.use(express.static('public'));
+
+// app.listen(3000, function() {
+//     console.log('Listening on port 3000');
+// });
+
+app.listen(process.env.PORT, function() {
+console.log('Listening from app.js');
 });
 
 
-app.get('/', function(request, response) {
-    response.write("hello world");
-    response.end();
-});
 
-app.get('/name', function(request, response) {
-    response.send("Elsine");
-    console.log("Elsine");
-    response.end();
-});
-
-app.get('/public', function(request, response) {
-    response.redirect(301, '/surprise');
-});
-
-app.use(function (request, response) {
-  console.log('Time:', Date.now());
-});
-
-app.listen(3000, function() {
-    console.log('Listening on port 3000');
-});
-
-// app.listen(process.env.PORT);
+        // express level 4 assignment requirements
+        // Add the ability to add a new city to your list.
+        //              --ok  City name
+        //              Containing city
+        //  Should confirm the city and state has values
+        //      State should have at least two characters.
+        //      City should have at least four characters
+        
+        //      --   Page should update to hide the city
+        //      Update page to make the cities links which return the state name
+        //      Add ability to remove a city
+        //      City should be confirmed prior to removing it
+        
+        //          Response should contain the correct status code
+        //          Page should update with new info
+        
+        // Additional challenge
+        // Add additional information to the site:
+        //              Add the additional data points longitude and latitude
+        //              Clickable link should display google maps centered to the longitude and latitude in new tab
+        //              Form should confirm that lat lon are numbers.
 
 
 
 
-//              Create a root route that returns “Hello World”
-//              Create a ‘/name’ route that returns your name
-//              Create a /redirect route that sends you to /surprise with a moved permanently status code
-// Create a route that returns the current date. You will need to look up how to get the current date.
+
+
+// Express level 5 assignemnt requirements
+
+// Convert all routes to using the router system
+// System should use function chaining
+// Extract your cities information into a separate file
+// File should export the full router item
+// All features should still work normally.
+// ‘/cities’ should not be present in any of the routes since it should be the root item for the router
